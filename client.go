@@ -76,5 +76,7 @@ func (c *Client) read() (string, error) {
 	return data, nil
 }
 
-func (c *Client) Status() {
+func (c *Client) Status() (string, error) {
+	c.write("status")
+	return c.read()
 }
