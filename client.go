@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"net"
 	"strings"
+	"sync"
 )
 
 type Client struct {
 	conn net.Conn
+	mut  sync.Mutex
 }
 
 func NewClient() *Client {
@@ -61,6 +63,9 @@ func (c *Client) read() (string, error) {
 
 // executes a command against cmus, and returns the result
 func (c *Client) Cmd(command string) (string, error) {
+	c.mut.Lock()
+	defer c.mut.Unlock()
+
 	c.write(command)
 	return c.read()
 }
