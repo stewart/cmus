@@ -65,7 +65,22 @@ func (c *Client) Cmd(command string) (string, error) {
 	return c.read()
 }
 
-// gets the status of the player
 func (c *Client) Status() (string, error) {
 	return c.Cmd("status")
+}
+
+func (c *Client) Play() (string, error) {
+	return c.Cmd("player-play")
+}
+
+func (c *Client) Pause() (string, error) {
+	return c.Cmd("player-pause")
+}
+
+func (c *Client) Prev() (string, error) {
+	return c.Cmd("player-prev")
+}
+
+func (c *Client) Next() (string, error) {
+	return c.Cmd("player-prev")
 }
