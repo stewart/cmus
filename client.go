@@ -42,7 +42,7 @@ func (c *Client) write(str string) {
 }
 
 // reads a response from cmus
-func (c *Client) read() string {
+func (c *Client) read() (string, error) {
 	lines := []string{}
 
 	scanner := bufio.NewScanner(c.conn)
@@ -56,10 +56,16 @@ func (c *Client) read() string {
 		lines = append(lines, text)
 	}
 
-	return strings.Join(lines, "\n")
+	return strings.Join(lines, "\n"), scanner.Err()
 }
 
-func (c *Client) Status() string {
-	c.write("status")
+// executes a command against cmus, and returns the result
+func (c *Client) Cmd(command string) (string, error) {
+	c.write(command)
 	return c.read()
+}
+
+// gets the status of the player
+func (c *Client) Status() (string, error) {
+	return c.Cmd("status")
 }
