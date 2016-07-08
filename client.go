@@ -2,7 +2,7 @@ package cmus
 
 import (
 	"bufio"
-	"fmt"
+	"errors"
 	"net"
 	"strings"
 	"sync"
@@ -39,8 +39,17 @@ func (c *Client) Connect() error {
 }
 
 // sends a command to cmus
-func (c *Client) write(str string) {
-	fmt.Fprintf(c.conn, str+"\n")
+func (c *Client) write(str string) error {
+	if c.conn == nil {
+		return errors.New("client is not connected")
+	}
+
+	_, err := c.conn.Write([]byte(str + "\n"))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // reads a response from cmus
@@ -66,7 +75,10 @@ func (c *Client) Cmd(command string) (string, error) {
 	c.mut.Lock()
 	defer c.mut.Unlock()
 
-	c.write(command)
+	if err := c.write(command); err != nil {
+		return "", err
+	}
+
 	return c.read()
 }
 
