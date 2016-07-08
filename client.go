@@ -86,12 +86,17 @@ func (c *Client) Status() (string, error) {
 	return c.Cmd("status")
 }
 
-func (c *Client) Play() (string, error) {
-	return c.Cmd("player-play")
+func (c *Client) Play(filename string) (string, error) {
+	return c.Cmd("player-play " + filename)
 }
 
-func (c *Client) Pause() (string, error) {
+// Toggles play/pause
+func (c *Client) PlayPause() (string, error) {
 	return c.Cmd("player-pause")
+}
+
+func (c *Client) Stop() (string, error) {
+	return c.Cmd("player-stop")
 }
 
 func (c *Client) Prev() (string, error) {
@@ -100,4 +105,20 @@ func (c *Client) Prev() (string, error) {
 
 func (c *Client) Next() (string, error) {
 	return c.Cmd("player-prev")
+}
+
+func (c *Client) Seek(time string) (string, error) {
+	return c.Cmd("seek " + time)
+}
+
+func (c *Client) Volume(level string) (string, error) {
+	return c.Cmd("vol " + level)
+}
+
+func (c *Client) Shuffle() (string, error) {
+	return c.Cmd("toggle shuffle")
+}
+
+func (c *Client) Repeat() (string, error) {
+	return c.Cmd("toggle repeat")
 }
