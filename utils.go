@@ -49,3 +49,7 @@ func exists(path string) (bool, error) {
 
 	return true, err
 }
+
+func discardResult(resp interface{}, err error) error {
+	return err
+}

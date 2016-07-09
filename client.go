@@ -106,28 +106,28 @@ func (c *Client) Status() (string, error) {
 // Play is a shorthand for Cmd("player-play " + filename). It plays the given
 // track, or, if none is specified, [re]plays the current track from the
 // beginning.
-func (c *Client) Play(filename string) (string, error) {
-	return c.Cmd("player-play " + filename)
+func (c *Client) Play(filename string) error {
+	return discardResult(c.Cmd("player-play " + filename))
 }
 
 // PlayPause is a shorthand for Cmd("player-pause"). It toggles pause.
-func (c *Client) PlayPause() (string, error) {
-	return c.Cmd("player-pause")
+func (c *Client) PlayPause() error {
+	return discardResult(c.Cmd("player-pause"))
 }
 
 // Stop is a shorthand for Cmd("player-stop"). It stops playback.
-func (c *Client) Stop() (string, error) {
-	return c.Cmd("player-stop")
+func (c *Client) Stop() error {
+	return discardResult(c.Cmd("player-stop"))
 }
 
 // Prev is a shorthand for Cmd("player-prev"). It skips to the previous track.
-func (c *Client) Prev() (string, error) {
-	return c.Cmd("player-prev")
+func (c *Client) Prev() error {
+	return discardResult(c.Cmd("player-prev"))
 }
 
 // Next is a shorthand for Cmd("player-prev"). It skips to the next track.
-func (c *Client) Next() (string, error) {
-	return c.Cmd("player-prev")
+func (c *Client) Next() error {
+	return discardResult(c.Cmd("player-prev"))
 }
 
 // Seek is a shorthand for Cmd("seek " + time). It seeks to an absolute or
@@ -145,8 +145,8 @@ func (c *Client) Next() (string, error) {
 //
 // Seek 90 seconds forward
 //     client.Seek("+1:30")
-func (c *Client) Seek(time string) (string, error) {
-	return c.Cmd("seek " + time)
+func (c *Client) Seek(time string) error {
+	return discardResult(c.Cmd("seek " + time))
 }
 
 // Volume is a shorthand for Cmd("vol " + level). It sets, increases, or
@@ -158,18 +158,18 @@ func (c *Client) Seek(time string) (string, error) {
 // Both absolute and relative values can be given as percentage units (suffixed
 // with %) or as internal values (hardware may have volume in range 0-31 for
 // example).
-func (c *Client) Volume(level string) (string, error) {
-	return c.Cmd("vol " + level)
+func (c *Client) Volume(level string) error {
+	return discardResult(c.Cmd("vol " + level))
 }
 
 // Shuffle is a shorthand for Cmd("toggle shuffle"). It toggles whether or not
 // the playback order is shuffled.
-func (c *Client) Shuffle() (string, error) {
-	return c.Cmd("toggle shuffle")
+func (c *Client) Shuffle() error {
+	return discardResult(c.Cmd("toggle shuffle"))
 }
 
 // Repeat is a shorthand for Cmd("toggle repeat"). It toggles whether or not
 // playback will repeat after all tracks are played.
-func (c *Client) Repeat() (string, error) {
-	return c.Cmd("toggle repeat")
+func (c *Client) Repeat() error {
+	return discardResult(c.Cmd("toggle repeat"))
 }
