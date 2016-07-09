@@ -4,9 +4,12 @@ import (
 	"bufio"
 	"errors"
 	"net"
+	"regexp"
 	"strings"
 	"sync"
 )
+
+var errorRegexp = regexp.MustCompile(`^Error\:\s+(.+)\s*$`)
 
 // Client is a connection to a cmus server.
 type Client struct {
@@ -65,10 +68,20 @@ func (c *Client) read() (string, error) {
 			break
 		}
 
+		// check for error message
+		errs := errorRegexp.FindStringSubmatch(text)
+		if errs != nil {
+			return "", errors.New("cmus error: " + errs[1])
+		}
+
 		lines = append(lines, text)
 	}
 
-	return strings.Join(lines, "\n"), scanner.Err()
+	if err := scanner.Err(); err != nil {
+		return "", err
+	}
+
+	return strings.Join(lines, "\n"), nil
 }
 
 // Cmd runs a command against cmus, and returns the result of that command.
