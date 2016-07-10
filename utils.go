@@ -18,13 +18,13 @@ func socketPath() (string, error) {
 		return "", errors.New("environment variable $HOME not set")
 	}
 
-	xdg := os.Getenv("XDG_RUNTIME_DIR")
-
 	config_path := filepath.Join(home, ".cmus")
 	config_path_exists, err := exists(config_path)
 	if err != nil {
 		return "", err
 	}
+
+	xdg := os.Getenv("XDG_RUNTIME_DIR")
 
 	if config_path_exists {
 		return config_path, nil
