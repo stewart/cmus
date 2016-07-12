@@ -99,8 +99,18 @@ func (c *Client) Cmd(command string) (string, error) {
 // Status is a shorthand for Cmd("status"). It returns status information from
 // cmus, including metadata about the currently playing track and various
 // settings.
-func (c *Client) Status() (string, error) {
-	return c.Cmd("status")
+func (c *Client) Status() (*Status, error) {
+	res, err := c.Cmd("status")
+	if err != nil {
+		return &Status{}, err
+	}
+
+	status, err := parseStatus(res)
+	if err != nil {
+		return &Status{}, err
+	}
+
+	return status, nil
 }
 
 // Play is a shorthand for Cmd("player-play " + filename). It plays the given
