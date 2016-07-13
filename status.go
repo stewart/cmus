@@ -47,26 +47,26 @@ func parseStatus(input string) (*Status, error) {
 
 		b = tokens[1]
 
-		switch {
-		case a == "status":
+		switch a {
+		case "status":
 			s.Playing = (b == "playing")
-		case a == "file":
+		case "file":
 			s.File = b
-		case a == "duration":
+		case "duration":
 			n, err := strconv.Atoi(b)
 			if err != nil {
 				return s, errors.New("unable to parse cmus duration to integer")
 			}
 			s.Duration = n
-		case a == "position":
+		case "position":
 			n, err := strconv.Atoi(b)
 			if err != nil {
 				return s, errors.New("unable to parse cmus position to integer")
 			}
 			s.Position = n
-		case a == "tag":
+		case "tag":
 			s.Tags[b] = c
-		case a == "set":
+		case "set":
 			s.Settings[b] = c
 		}
 	}
