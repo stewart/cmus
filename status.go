@@ -27,25 +27,26 @@ func parseStatus(input string) (*Status, error) {
 
 	for _, line := range lines {
 		var a, b, c string
-		tokens := strings.SplitN(line, " ", 2)
+		tokens := strings.SplitN(line, " ", 3)
 
 		if len(tokens) < 2 {
 			return s, errors.New("unable to parse cmus status message")
 		}
 
 		a = tokens[0]
+		b = tokens[1]
 
 		if a == "tag" || a == "set" {
-			tokens = strings.SplitN(line, " ", 3)
-
 			if len(tokens) < 3 {
 				return s, errors.New("unable to parse cmus status message")
 			}
 
 			c = tokens[2]
+		} else {
+			if len(tokens) == 3 {
+				b += " " + tokens[2]
+			}
 		}
-
-		b = tokens[1]
 
 		switch a {
 		case "status":
