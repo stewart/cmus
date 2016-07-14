@@ -2,6 +2,7 @@ package cmus
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -15,6 +16,14 @@ type Status struct {
 	Position int
 	Tags     map[string]string
 	Settings map[string]string
+}
+
+// Converts the Status' Position/Duration into a displayable playback time
+// e.g. "01:30 / 02:00"
+func (s *Status) Time() string {
+	p := s.Position
+	d := s.Duration
+	return fmt.Sprintf("%02d:%02d / %02d:%02d", p/60, p%60, d/60, d%60)
 }
 
 func parseStatus(input string) (*Status, error) {

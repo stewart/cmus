@@ -96,3 +96,24 @@ func BenchmarkParseStatus(b *testing.B) {
 		}
 	})
 }
+
+func TestStatusTime(t *testing.T) {
+	cases := []struct {
+		Position, Duration int
+		Expected           string
+	}{
+		{10, 60, "00:10 / 01:00"},
+		{63, 90, "01:03 / 01:30"},
+		{100, 10000, "01:40 / 166:40"},
+	}
+
+	for _, c := range cases {
+		status := &Status{Position: c.Position, Duration: c.Duration}
+		got := status.Time()
+
+		if got != c.Expected {
+			msg := "Expected (&Status{Position: %d, Duration: %d}).Time() to be %q, got %q"
+			t.Errorf(msg, c.Position, c.Duration, c.Expected, got)
+		}
+	}
+}
