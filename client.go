@@ -135,9 +135,9 @@ func (c *Client) Prev() error {
 	return discardResult(c.Cmd("player-prev"))
 }
 
-// Next is a shorthand for Cmd("player-prev"). It skips to the next track.
+// Next is a shorthand for Cmd("player-next"). It skips to the next track.
 func (c *Client) Next() error {
-	return discardResult(c.Cmd("player-prev"))
+	return discardResult(c.Cmd("player-next"))
 }
 
 // Seek is a shorthand for Cmd("seek " + time). It seeks to an absolute or
